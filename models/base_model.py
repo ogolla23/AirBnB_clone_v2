@@ -55,13 +55,15 @@ class BaseModel:
         storage.save()
 
     def to_dict(self):
-        """Convert instance into dict format"""
-        res = {}
-        for key, value in self.__dict__.items():
-            if key != '_sa_instance_state':
-                if isinstance(value, datetime):
-                    res[key] = value.isoformat()
-                else:
-                    res[key] = value
-        res['__class__'] = self.__class__.__name__
-        return res
+        """Return a dictionary representation of the BaseModel instance.
+
+        Includes the key/value pair __class__ representing
+        the class name of the object.
+        """
+        my_dict = self.__dict__.copy()
+        my_dict["__class__"] = str(type(self).__name__)
+        my_dict["created_at"] = self.created_at.isoformat()
+        my_dict["updated_at"] = self.updated_at.isoformat()
+        my_dict.pop("_sa_instance_state", None)
+        return my_dict
+
