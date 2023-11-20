@@ -1,13 +1,15 @@
 #!/usr/bin/python3
-""" Class Amenity that inherits from base model"""
+""" Amenity Module for HBNB project """
+import os
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 
-from models.base_model import BaseModel
+from models.base_model import BaseModel, Base
 
 
-class Amenity(BaseModel):
-    """ Class Amenity that inherits from base model """
-    name = ""
-
-    def __init__(self, *args, **kwargs):
-        """ Constructor """
-        super().__init__(self, *args, **kwargs)
+class Amenity(BaseModel, Base):
+    """Represents an amenity data set."""
+    __tablename__ = 'amenities'
+    name = Column(
+        String(128), nullable=False
+    ) if os.getenv('HBNB_TYPE_STORAGE') == 'db' else ''

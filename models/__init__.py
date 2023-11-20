@@ -1,10 +1,12 @@
 #!/usr/bin/python3
-""" module models """
+"""This module instantiates an object of class FileStorage"""
+import os
 
-
+from models.engine.db_storage import DBStorage
 from models.engine.file_storage import FileStorage
 
-classes = {'BaseModel': 'BaseModel', 'Amenity': 'Amenity', 'State': 'State',
-           'Place': 'Place', 'Review': 'Review', 'User': 'User'}
-storage = FileStorage()
+storage = DBStorage() if os.getenv(
+    'HBNB_TYPE_STORAGE') == 'db' else FileStorage()
+"""A unique FileStorage/DBStorage instance for all models.
+"""
 storage.reload()
