@@ -180,14 +180,13 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: create <className>\n")
 
     def do_show(self, args):
-        """ Method to show an individual object """
         new = args.partition(" ")
-        c_name = new[0]
-        c_id = new[2]
+        c_name = new
+        c_id = new
 
-        # guard against trailing args
+        # Error checking
         if c_id and ' ' in c_id:
-            c_id = c_id.partition(' ')[0]
+            c_id = c_id.partition(' ')
 
         if not c_name:
             print("** class name missing **")
