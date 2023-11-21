@@ -180,26 +180,27 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: create <className>\n")
 
     def do_show(self, args):
-    """ Method to show an individual object """
-    args_list = args.split()
+    new = args.partition(" ")
+    c_name = new
+    c_id = new
 
-    if len(args_list) < 1:
+    # Error checking
+    if c_id and ' ' in c_id:
+        c_id = c_id.partition(' ')
+
+    if not c_name:
         print("** class name missing **")
         return
-
-    c_name = args_list[0]
 
     if c_name not in HBNBCommand.classes:
         print("** class doesn't exist **")
         return
 
-    if len(args_list) < 2:
+    if not c_id:
         print("** instance id missing **")
         return
 
-    c_id = args_list[1]
-
-    key = f"{c_name}.{c_id}"
+    key = c_name + "." + c_id
     try:
         print(storage.all()[key])
     except KeyError:
