@@ -207,7 +207,6 @@ class HBNBCommand(cmd.Cmd):
         except KeyError:
             print("** no instance found **")
 
-
     def help_show(self):
         """ Help information for the show command """
         print("Shows an individual instance of a class")
@@ -251,15 +250,27 @@ class HBNBCommand(cmd.Cmd):
         key = class_name + "." + instance_id
         delete_object(key)
 
-
     def help_destroy(self):
         """ Help information for the destroy command """
         print("Destroys an individual instance of a class")
         print("[Usage]: destroy <className> <objectId>\n")
 
     def do_all(self, args):
-        """ Shows all objects, or all objects of a specific class"""
-        print_list = [str(v) for k, v in storage.all().items() if k.split('.') == args]
+        """ Shows all objects, or all objects of a class"""
+        print_list = []
+
+        if args:
+            args = args.split(' ')[0]  # remove possible trailing args
+            if args not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
+            for k, v in storage.all().items():
+                if k.split('.')[0] == args:
+                    print_list.append(str(v))
+        else:
+            for k, v in storage.all().items():
+                print_list.append(str(v))
+
         print(print_list)
 
     def help_all(self):
