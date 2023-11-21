@@ -214,42 +214,42 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: show <className> <objectId>\n")
 
     def validate_input(args):
-    """Checks if the class name and instance ID are present and valid."""
-    new = args.partition(" ")
-    class_name = new
-    instance_id = new
-    if instance_id and ' ' in instance_id:
-        instance_id = instance_id.partition(' ')
+        """Checks if the class name and instance ID are present and valid."""
+        new = args.partition(" ")
+        class_name = new
+        instance_id = new
+        if instance_id and ' ' in instance_id:
+            instance_id = instance_id.partition(' ')
 
-    if not class_name:
-        print("** class name missing **")
-        return False
+        if not class_name:
+            print("** class name missing **")
+            return False
 
-    if class_name not in HBNBCommand.classes:
-        print("** class doesn't exist **")
-        return False
+        if class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return False
 
-    if not instance_id:
-        print("** instance id missing **")
-        return False
+        if not instance_id:
+            print("** instance id missing **")
+            return False
 
-    return True
+        return True
 
-def delete_object(key):
-    """Deletes an object from the storage based on its key."""
-    try:
-        storage.delete(storage.all()[key])
-        storage.save()
-    except KeyError:
-        print("** no instance found **")
+    def delete_object(key):
+        """Deletes an object from the storage based on its key."""
+        try:
+            storage.delete(storage.all()[key])
+            storage.save()
+        except KeyError:
+            print("** no instance found **")
 
-def do_destroy(args):
-    """Destroys a specified object."""
-    if not validate_input(args):
-        return
+    def do_destroy(args):
+        """Destroys a specified object."""
+        if not validate_input(args):
+            return
 
-    key = class_name + "." + instance_id
-    delete_object(key)
+        key = class_name + "." + instance_id
+        delete_object(key)
 
 
     def help_destroy(self):
