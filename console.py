@@ -213,33 +213,44 @@ class HBNBCommand(cmd.Cmd):
         print("Shows an individual instance of a class")
         print("[Usage]: show <className> <objectId>\n")
 
-    def do_destroy(self, args):
-        """ Destroys a specified object """
-        new = args.partition(" ")
-        c_name = new[0]
-        c_id = new[2]
-        if c_id and ' ' in c_id:
-            c_id = c_id.partition(' ')[0]
+    def validate_input(args):
+    """Checks if the class name and instance ID are present and valid."""
+    new = args.partition(" ")
+    class_name = new
+    instance_id = new
+    if instance_id and ' ' in instance_id:
+        instance_id = instance_id.partition(' ')
 
-        if not c_name:
-            print("** class name missing **")
-            return
+    if not class_name:
+        print("** class name missing **")
+        return False
 
-        if c_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
-            return
+    if class_name not in HBNBCommand.classes:
+        print("** class doesn't exist **")
+        return False
 
-        if not c_id:
-            print("** instance id missing **")
-            return
+    if not instance_id:
+        print("** instance id missing **")
+        return False
 
-        key = c_name + "." + c_id
+    return True
 
-        try:
-            storage.delete(storage.all()[key])
-            storage.save()
-        except KeyError:
-            print("** no instance found **")
+def delete_object(key):
+    """Deletes an object from the storage based on its key."""
+    try:
+        storage.delete(storage.all()[key])
+        storage.save()
+    except KeyError:
+        print("** no instance found **")
+
+def do_destroy(args):
+    """Destroys a specified object."""
+    if not validate_input(args):
+        return
+
+    key = class_name + "." + instance_id
+    delete_object(key)
+
 
     def help_destroy(self):
         """ Help information for the destroy command """
