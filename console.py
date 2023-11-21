@@ -258,9 +258,9 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: destroy <className> <objectId>\n")
 
     def do_all(self, args):
-    """ Shows all objects, or all objects of a specific class"""
-    print_list = [str(v) for k, v in storage.all().items() if k.split('.') == args]
-    print(print_list)
+        """ Shows all objects, or all objects of a specific class"""
+        print_list = [str(v) for k, v in storage.all().items() if k.split('.') == args]
+        print(print_list)
 
     def help_all(self):
         """ Help information for the all command """
