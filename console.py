@@ -23,29 +23,21 @@ class HBNBCommand(cmd.Cmd):
     # determines prompt for interactive/non-interactive modes
     prompt = '(hbnb) ' if sys.__stdin__.isatty() else ''
 
-    # define classes as individual class attributes
-    BaseModel = BaseModel
-    User = User
-    Place = Place
-    State = State
-    City = City
-    Amenity = Amenity
-    Review = Review
+    classes = {
+               'BaseModel': BaseModel, 'User': User, 'Place': Place,
+               'State': State, 'City': City, 'Amenity': Amenity,
+               'Review': Review
+              }
+    dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
+    types = {
+             'number_rooms': int, 'number_bathrooms': int,
+             'max_guest': int, 'price_by_night': int,
+             'latitude': float, 'longitude': float
+            }
 
-    # define dot_cmds as a tuple instead of a list
-    dot_cmds = ('all', 'count', 'show', 'destroy', 'update')
-
-    # define types as individual class attributes
-    number_rooms = int
-    number_bathrooms = int
-    max_guest = int
-    price_by_night = int
-    latitude = float
-    longitude = float
     def preloop(self):
-        """Prints if isatty is false"""
-        if not sys.__stdin__.isatty():
-            print('(hbnb)')
+         """Prints if isatty is false"""
+        print('(hbnb)') if not sys.__stdin__.isatty() else None
     def precmd(self, line):
         """Reformat command line for advanced command syntax.
 
